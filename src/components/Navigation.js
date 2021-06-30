@@ -4,12 +4,12 @@ import { Navbar, Nav, Form, NavDropdown, FormControl, Button } from 'react-boots
 const Navigation = () => {
     return (
         <>
-            <Navbar bg="primary" expand="lg" variant="dark" fixed="top">
+            <Navbar expand="lg" variant="dark" fixed="top">
                 <Navbar.Brand href="#home">OurAppName</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
+                    <Nav.Link className="active" href="#home">Home</Nav.Link>
                     <Nav.Link href="#link">Profile</Nav.Link>
                     <NavDropdown title="Jayatharan" id="basic-nav-dropdown">
                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

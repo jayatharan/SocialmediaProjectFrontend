@@ -26,7 +26,7 @@ const Search = () => {
 
     return (
         <div className="mt-3 pr-1">
-            <InputGroup className="mb-3">
+            <InputGroup>
                 <FormControl
                     placeholder="Search"
                     aria-label="Recipient's username"
@@ -36,7 +36,7 @@ const Search = () => {
                     <Button variant="outline-primary"><FaSearch /></Button>
                 </InputGroup.Append>
             </InputGroup>
-            <hr/>
+            <hr className="my-1" />
             
                 <Accordion defaultActiveKey="0">
                     <Card>
