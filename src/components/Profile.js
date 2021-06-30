@@ -1,6 +1,6 @@
 import React from 'react'
 import { Scrollbars } from 'react-custom-scrollbars-2';
-import { Modal, Media, Badge, Accordion, Card } from 'react-bootstrap';
+import { Modal, Media, Badge, Accordion, Card, Image } from 'react-bootstrap';
 
 const Profile = () => {
 
@@ -27,13 +27,7 @@ const Profile = () => {
         <>    
             <div className="mt-3">
                 <Media className="px-2 pt-1">
-                    <img
-                        width={80}
-                        height={80}
-                        className="mr-3 rounded" 
-                        src="https://source.unsplash.com/random"
-                        alt="Generic placeholder"
-                    />
+                    <Image width={80} height={80} className="mr-3" src="https://source.unsplash.com/random" roundedCircle />
                     <Media.Body>
                         <div class="d-flex flex-column mt-2">
                         <b>Profile Owner</b>

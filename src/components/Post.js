@@ -1,6 +1,8 @@
 import React from 'react'
-import { Tabs, Tab, Modal, Media, Popover, OverlayTrigger, Button } from 'react-bootstrap';
+import { Tabs, Tab, Modal, Media, Popover, OverlayTrigger, Row, Col, Card, Button, Badge, Image } from 'react-bootstrap';
 import YouTube from 'react-youtube';
+import { FiMoreVertical } from "react-icons/fi";
+import png from '../pdf.png';
 
 const Post = () => {
 
@@ -13,10 +15,9 @@ const Post = () => {
 
     const popover = (
         <Popover id="popover-basic">
-            <Popover.Title as="h3">Popover right</Popover.Title>
+            <Popover.Title as="h5">Report Post</Popover.Title>
             <Popover.Content>
-            And here's some <strong>amazing</strong> content. It's very engaging.
-            right?
+            Report Related Things will show here
             </Popover.Content>
         </Popover>
     );
@@ -24,22 +25,25 @@ const Post = () => {
     return (
         <Modal.Dialog className="mb-0">
             <Media className="px-2 pt-1">
-                    <img
+                    {/* <img
                         width={45}
                         height={45}
-                        className="mr-3 rounded" 
+                        className="mr-3" 
                         src="https://source.unsplash.com/random"
                         alt="Generic placeholder"
-                    />
+                    /> */}
+                    <Image width={45} height={45} className="mr-3" src="https://source.unsplash.com/random" roundedCircle />
                     <Media.Body>
-                        <div class="d-flex flex-column">
-                        <b>Profile Owner</b>
-                        <small>Date</small>
+                        <div class="d-flex justify-content-between">    
+                            <div class="d-flex flex-column">
+                            <b>Profile Owner</b>
+                            <small>Date</small>
+                            </div>
+
+                            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+                                <div><FiMoreVertical /></div>
+                            </OverlayTrigger>
                         </div>
-{/*                         
-                        <OverlayTrigger trigger="click" placement="left" overlay={popover}>
-                            <Button variant="success">Click me to see</Button>
-                        </OverlayTrigger> */}
                     </Media.Body>
             </Media>
             <Modal.Header className="px-2 py-0">
@@ -50,7 +54,23 @@ const Post = () => {
                     <YouTube videoId="Tn6-PIqc4UM" opts={opts} />
                 </Tab>
                 <Tab eventKey="file" title="files">
-                    <h2>Test2</h2>
+                    <Row className="p-1">
+                        
+                        <Col xs={6} sm={4}>
+                            <Card>
+                                <Card.Img variant="top" src={png} />
+                                <Card.Body className="p-0 px-1">
+                                    <small>FileName.png</small>
+                                    <div className="d-flex justify-content-between my-1">
+                                        <Badge pill variant="primary">View</Badge>
+                                        <Badge pill variant="success">
+                                            <a id="all-link" href="http://www.africau.edu/images/default/sample.pdf">Download</a>
+                                        </Badge>
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    </Row>
                 </Tab>
             </Tabs>
             <Modal.Footer className="p-1">

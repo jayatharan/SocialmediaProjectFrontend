@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
+import SchoolNotifications from '../components/SchoolNotifications'
 import Navigation from '../components/Navigation'
 import Post from '../components/Post'
 import Profile from '../components/Profile'
@@ -18,7 +19,9 @@ const Home = () => {
                     </Col>
 
                     <Col className="px-0" md={8} lg={6}>
-                        <Scrollbars style={{ height:"100vh" }} >
+                        
+                        <Scrollbars style={{ height:"100vh" }} className="mt-3">
+                            <SchoolNotifications />
                             <Post />
                             <Post />
                             <Post />

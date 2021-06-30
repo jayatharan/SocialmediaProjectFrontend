@@ -1,9 +1,10 @@
-body {
-  background-color: cyan;
-}
-
 #post-tab-tab-video,
 #post-tab-tab-file {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+#all-link {
+  color: #ffffff;
+  text-decoration: none;
 }
