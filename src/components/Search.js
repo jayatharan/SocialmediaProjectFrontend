@@ -25,7 +25,7 @@ const Search = () => {
     }
 
     return (
-        <div className="mt-3 pr-1">
+        <div className="mt-3 px-2 pb-2">
             <InputGroup>
                 <FormControl
                     placeholder="Search"
@@ -37,31 +37,30 @@ const Search = () => {
                 </InputGroup.Append>
             </InputGroup>
             <hr className="my-1" />
-            
-                <Accordion defaultActiveKey="0">
-                    <Card>
-                        <Accordion.Toggle className="py-1" as={Card.Header} eventKey="0">
-                        Pages 
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
-                        <Card.Body className="px-0">
-                            <Scrollbars style={{ height:"50vh" }}>
-                            {items}
-                            </Scrollbars>
-                        </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                    <Card>
-                        <Accordion.Toggle className="py-1" as={Card.Header} eventKey="1">
-                        People 
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="1">
-                        <Card.Body>
-                            All the people will show here
-                        </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>
+            <Accordion defaultActiveKey="0">
+                <Card>
+                    <Accordion.Toggle className="py-1" as={Card.Header} eventKey="0">
+                    Pages 
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                    <Card.Body className="px-0">
+                        <Scrollbars style={{ height:"50vh" }}>
+                        {items}
+                        </Scrollbars>
+                    </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+                <Card>
+                    <Accordion.Toggle className="py-1" as={Card.Header} eventKey="1">
+                    People 
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="1">
+                    <Card.Body>
+                        All the people will show here
+                    </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
         </div>
     )
 }

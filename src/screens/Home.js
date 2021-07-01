@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, Card, Media, Image } from 'react-bootstrap';
+import { Container, Row, Col} from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import SchoolNotifications from '../components/SchoolNotifications'
@@ -7,6 +7,7 @@ import Navigation from '../components/Navigation'
 import Post from '../components/Post'
 import Profile from '../components/Profile'
 import Search  from '../components/Search'
+import SmallProfile from '../components/SmallProfile'
 
 const Home = () => {
     return (
@@ -18,20 +19,8 @@ const Home = () => {
                         <Profile />
                     </Col>
                     <Col className="px-0" md={8} lg={6}>                    
-                        <Scrollbars autoHide autoHideTimeout={100} autoHideDuration={100} style={{ height:"100vh" }} className="mt-3">
-                            <Card className="mx-2 mb-1">
-                                <Media className="px-2 pt-1">
-                                    <Image width={45} height={45} className="mr-3" src="https://source.unsplash.com/random" roundedCircle />
-                                    <Media.Body>
-                                        <div class="d-flex justify-content-between">    
-                                            <div class="d-flex flex-column">
-                                                <b>Profile Owner</b>
-                                                <small>Date</small>
-                                            </div>
-                                        </div>
-                                    </Media.Body>
-                                </Media>
-                            </Card>    
+                        <Scrollbars autoHide autoHideTimeout={100} autoHideDuration={100} style={{ height:"100vh" }} className="mt-3">    
+                            <SmallProfile />
                             <SchoolNotifications />
                             <Post />
                             <Post />
