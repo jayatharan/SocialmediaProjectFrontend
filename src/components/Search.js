@@ -40,11 +40,23 @@ const Search = () => {
             <Accordion defaultActiveKey="0">
                 <Card>
                     <Accordion.Toggle className="py-1" as={Card.Header} eventKey="0">
-                    Pages 
+                    Pages <Badge variant="primary">12</Badge>
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
                     <Card.Body className="px-0">
                         <Scrollbars style={{ height:"50vh" }}>
+                        <Media className="px-2 py-1 rounded">
+                            <Media.Body>
+                                <div class="d-flex justify-content-between pr-1">
+                                    <div className="d-flex flex-column">
+                                        <>Pagename</>
+                                        <small>Sir Name</small>
+                                    </div>
+                                    <div><Badge variant="primary">View</Badge> <Badge variant="warning">Follow</Badge></div>
+                                </div>
+                                <hr className="my-0" />
+                            </Media.Body>
+                        </Media>
                         {items}
                         </Scrollbars>
                     </Card.Body>
@@ -52,7 +64,7 @@ const Search = () => {
                 </Card>
                 <Card>
                     <Accordion.Toggle className="py-1" as={Card.Header} eventKey="1">
-                    People 
+                    People <Badge variant="success">12</Badge>
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="1">
                     <Card.Body>
