@@ -62,14 +62,14 @@ const Post = ({ postData }) => {
             <Modal.Header className="px-2 py-0">
                 <p className="mb-0">{postData&&postData.title}</p>
             </Modal.Header>
-            {postData&&(
+            {postData?(
                 <Tabs defaultActiveKey={getDefaultActiveKey()} transition={false} id="post-tab">
                     {postData.youtubeId&&(
                         <Tab eventKey="video" title="Video"> 
                             <YouTube videoId={postData.youtubeId} opts={opts} />
                         </Tab>
                     )}
-                    {postData.files.length&&(
+                    {postData.files.length?(
                         <Tab eventKey="file" title="files">
                             <Row className="p-1">  
                                 <Col xs={6} sm={4}>
@@ -88,7 +88,7 @@ const Post = ({ postData }) => {
                                 </Col>
                             </Row>
                         </Tab>
-                    )}
+                    ):""}
                     {postData.description&&(
                         <Tab eventKey="discription" title="Discription">
                             <Scrollbars style={{ height: "30vh" }}>
@@ -97,7 +97,7 @@ const Post = ({ postData }) => {
                         </Tab>
                     )}
                 </Tabs>
-            )}
+            ):""}
             <div className="d-flex justify-content-around pb-2">
                 <Button className="py-0" variant={like&&"primary"} onClick={()=>setlike(!like)} size='sm' ><BiLike /> Like <Badge variant="dark">999</Badge></Button>
                 <Button className="py-0" variant=""><BiComment /> Comment</Button>

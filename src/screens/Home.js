@@ -22,10 +22,17 @@ const Home = ({user,userCheck}) => {
     const getAllPosts = ()=>{
         axios({
             method:"GET",
-            url:'http://localhost:5000/post'
+            url:'http://localhost:5000/post/'
         }).then((response)=>{
-            setPosts(response.data)
+            console.log()
+            if(typeof(response.data) != "string") setPosts(response.data)
         })
+    }
+
+    const showPosts = ()=>{
+        const items = []
+        posts.map((post)=>(items.push(<Post key={post._id} postData={post} />)))
+        return items
     }
 
     return (
@@ -39,7 +46,8 @@ const Home = ({user,userCheck}) => {
                         <Scrollbars autoHide autoHideTimeout={100} autoHideDuration={100} style={{ height: "100vh" }} className="mt-3">
                             {user ? <><SmallProfile user={user} userCheck={userCheck} /> {user.user.updated && <SchoolNotifications />}</> : <div className="mx-2 mb-1 d-block d-md-none"><Login userCheck={userCheck} /></div>}
                             <CreatePost />
-                            {posts.map((post)=>(<Post key={post._id} postData={post} />))}
+
+                            {posts.length?posts.map((post)=>(<Post key={post._id} postData={post} />)):""}
                             
                         </Scrollbars>
                     </Col>
