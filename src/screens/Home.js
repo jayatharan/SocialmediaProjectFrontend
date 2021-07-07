@@ -17,38 +17,46 @@ const Home = ({user,userCheck}) => {
     useEffect(() => {
         userCheck();
         getAllPosts();
-    }, [])
+    },[])
+
+    const updatePosts = (update)=>{
+        const index = posts.findIndex(post => post._id === update._id)
+        posts[index] = update
+        setPosts(posts)
+    }
+
+    const getToken = ()=>{
+        const user = JSON.parse(localStorage.getItem("user"))
+        if(user){
+            return user.token
+        }
+        return ""
+    }
 
     const getAllPosts = ()=>{
+        getToken()
         axios({
             method:"GET",
-            url:'http://localhost:5000/post/'
+            url:'http://localhost:5000/post/',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
         }).then((response)=>{
-            console.log()
             if(typeof(response.data) != "string") setPosts(response.data)
         })
     }
 
-    const showPosts = ()=>{
-        const items = []
-        posts.map((post)=>(items.push(<Post key={post._id} postData={post} />)))
-        return items
-    }
-
+    
     return (
         <div>
             <Container fluid>
                 <Row className="mt-5">
                     <Col className="d-none d-md-block pr-0" md={4} lg={3} >
-                        {user ? <Profile user={user} userCheck={userCheck} /> : <Login userCheck={userCheck} />}
+                        {user && user.user ? <Profile user={user} userCheck={userCheck} /> : <Login getAllPosts={getAllPosts} userCheck={userCheck} />}
                     </Col>
                     <Col className="px-0" md={8} lg={6}>
                         <Scrollbars autoHide autoHideTimeout={100} autoHideDuration={100} style={{ height: "100vh" }} className="mt-3">
-                            {user ? <><SmallProfile user={user} userCheck={userCheck} /> {user.user.updated && <SchoolNotifications />}</> : <div className="mx-2 mb-1 d-block d-md-none"><Login userCheck={userCheck} /></div>}
-                            <CreatePost />
+                            {user && user.user ? <><SmallProfile user={user} userCheck={userCheck} /> {user.user&&user.user.updated && <><SchoolNotifications /><CreatePost /></>}</> : <div className="mx-2 mb-1 d-block d-md-none"><Login getAllPosts={getAllPosts} userCheck={userCheck} /></div>}
 
-                            {posts.length?posts.map((post)=>(<Post key={post._id} postData={post} />)):""}
-                            
+                            {posts.length?posts.map((post)=>(<Post key={post._id} postData={post} user={user} updatePosts={updatePosts} />)):""}
                         </Scrollbars>
                     </Col>
                     <Col className="d-none d-lg-block px-0" lg={3}>

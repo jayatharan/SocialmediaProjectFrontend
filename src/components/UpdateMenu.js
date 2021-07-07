@@ -64,7 +64,6 @@ const UpdateMenu = ({ user, userCheck }) => {
             method: "GET",
             url: "http://localhost:5000/getChoices",
         }).then((response) => {
-            console.log(response.data)
             setChoice(response.data)
             setDatas()
         })

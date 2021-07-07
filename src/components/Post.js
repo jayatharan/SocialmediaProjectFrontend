@@ -1,14 +1,26 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import { Tabs, Tab, Modal, Media, Popover, OverlayTrigger, Row, Col, Card, Button, Badge, Image } from 'react-bootstrap';
 import YouTube from 'react-youtube';
 import { FiMoreVertical } from "react-icons/fi";
 import png from '../pdf.png';
 import { BiLike, BiComment, BiShare } from "react-icons/bi";
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import axios from 'axios'
 
-const Post = ({ postData }) => {
-    const [like,setlike] = useState(false)
+const Post = ({ postData,user,updatePosts }) => {
 
+    const [like,setLike] = useState(false)
+    const [likeCnt,setLikeCnt] = useState(0)
+
+    useEffect(()=>{
+        setLikeCnt(postData.likes.length)
+        if(user){
+            if(postData.likes.includes(user.user._id)){
+                setLike(true)
+            }
+        }
+    },[])
+    
     const opts = {
         width: '100%',
         playerVars:{
@@ -25,6 +37,20 @@ const Post = ({ postData }) => {
         return ""
     }
 
+
+    const likePost = ()=>{
+        setLike(!like)
+        if(user){
+            axios({
+                method:"GET",
+                url:`http://localhost:5000/post/like/${postData._id}`,
+                headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`},
+            }).then((response)=>{
+                setLikeCnt(response.data.likes.length)
+                updatePosts(response.data)
+            })
+        }
+    }
 
     const popover = (
         <Popover id="popover-basic">
@@ -98,11 +124,13 @@ const Post = ({ postData }) => {
                     )}
                 </Tabs>
             ):""}
+            {user&&(
             <div className="d-flex justify-content-around pb-2">
-                <Button className="py-0" variant={like&&"primary"} onClick={()=>setlike(!like)} size='sm' ><BiLike /> Like <Badge variant="dark">999</Badge></Button>
+                <Button className="py-0" variant={like&&"primary"} onClick={likePost} size='sm' ><BiLike /> Like <Badge variant="dark">{likeCnt}</Badge></Button>
                 <Button className="py-0" variant=""><BiComment /> Comment</Button>
                 <Button className="py-0" variant=""><BiShare /> Share</Button>
             </div>
+            )}
         </Modal.Dialog>
     )
 }
