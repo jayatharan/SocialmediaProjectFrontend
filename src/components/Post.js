@@ -62,7 +62,7 @@ const Post = ({ postData,user,updatePosts }) => {
     );
 
     return (
-        <Modal.Dialog className="my-1">
+        <Modal.Dialog size="lg" className="my-1">
             <Media className="px-2 pt-1">
                     {/* <img
                         width={45}
