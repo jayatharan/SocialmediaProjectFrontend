@@ -88,9 +88,9 @@ const Home = ({user,userCheck}) => {
     }
     
     return (
-        <div>
-            <Container fluid>
-                <Row className="mt-5">
+        <div style={{height:'100vh'}}>
+            <Container style={{height:'100%'}} fluid>
+                <Row className="pt-5">
                     <Col className="d-none d-md-block pr-0" md={4} lg={3} >
                         {user && user.user ? 
                             (<Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests}/>) 
@@ -99,7 +99,12 @@ const Home = ({user,userCheck}) => {
                         )}
                     </Col>
                     <Col className="px-0" md={8} lg={6}>
-                        <Scrollbars autoHide autoHideTimeout={100} autoHideDuration={100} style={{ height: "100vh" }} className="mt-3">
+                        <Scrollbars 
+                        autoHide 
+                        autoHideTimeout={100} 
+                        autoHideDuration={100} 
+                        style={{ height: "90vh" }} 
+                        className="mt-3">
                             {user && user.user ? 
                             (<>
                                 <SmallProfile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} /> 
