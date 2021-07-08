@@ -25,7 +25,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navigation logout={logout} />
+      <Navigation logout={logout} user={user} />
       <Route path='/' exact>
         <Home user={user} setUser={setUser} userCheck={userCheck} logout={logout} />
       </Route>

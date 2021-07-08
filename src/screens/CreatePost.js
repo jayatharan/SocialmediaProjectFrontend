@@ -60,9 +60,9 @@ const CreatePost = () => {
     }
 
     return (
-        <div>
-            <Container>
-                <Row className="mt-5">
+        <div style={{height:'100vh'}}>
+            <Container style={{height:'100%'}}>
+                <Row className="pt-5">
                     <Col xs={12} sm={12} md={6} className="px-0 mt-2">
                         <Modal.Dialog>
                             <Modal.Header className="py-0">

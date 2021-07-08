@@ -15,7 +15,7 @@ const Home = ({user,userCheck}) => {
     const [posts,setPosts] = useState([])
     const [requests,setRequests] = useState([])
     const [myFriends,setMyFriends] = useState([])
-    
+    const [refresh, doRefresh] = useState(0);
 
     useEffect(() => {
         userCheck();
@@ -26,6 +26,8 @@ const Home = ({user,userCheck}) => {
     const getPersonalDatas = ()=>{
         getMyRequests()
         getMyFriends()
+        console.log(refresh)
+        doRefresh(prev => prev + 1)
     }
 
     const updatePosts = (update)=>{
@@ -107,7 +109,7 @@ const Home = ({user,userCheck}) => {
                         className="mt-3">
                             {user && user.user ? 
                             (<>
-                                <SmallProfile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} /> 
+                                <SmallProfile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} refresh={refresh}/> 
                                 {user.user&&user.user.updated && <><SchoolNotifications /><CreatePost /></>}
                             </> )
                             : 
@@ -119,7 +121,7 @@ const Home = ({user,userCheck}) => {
                         </Scrollbars>
                     </Col>
                     <Col className="d-none d-lg-block px-0" lg={3}>
-                        <Search user={user} />
+                        <Search user={user} refresh={refresh}/>
                     </Col>
                 </Row>
             </Container>

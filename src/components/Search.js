@@ -6,13 +6,14 @@ import axios from 'axios'
 
 import PersonSearch from '../smallComponents/PersonSearch';
 
-const Search = ({user}) => {
+const Search = ({user,refresh}) => {
+
     const [people,setPeople] = useState([])
     const [requested,setRequested] = useState([])
 
     useEffect(()=>{
         searchPeople()
-    },[])
+    },[refresh])
 
     const getToken = ()=>{
         const user = JSON.parse(localStorage.getItem("user"))
