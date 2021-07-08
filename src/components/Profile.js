@@ -141,7 +141,7 @@ const Profile = ({ user, userCheck }) => {
                                                         <Image width={45} height={45} className="mr-3" src={friend.avatar} roundedCircle />
                                                         <div>
                                                             <div>
-                                                                <>{friend.name}</>
+                                                                <small><b>{friend.name}</b></small>
                                                             </div>
                                                             <small>{friend.userType}</small>
                                                         </div>
