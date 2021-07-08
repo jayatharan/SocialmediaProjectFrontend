@@ -3,7 +3,7 @@ import GoogleLogin from 'react-google-login';
 import axios from 'axios'
 import { Card } from 'react-bootstrap';
 
-const Login = ({ userCheck,getAllPosts }) => {
+const Login = ({ userCheck, getAllPosts, getPersonalDatas }) => {
 
     const responseGoogle = (response) => {
         const tokenId = response.tokenId
@@ -14,8 +14,8 @@ const Login = ({ userCheck,getAllPosts }) => {
         }).then((response) => {
             localStorage.setItem('user', JSON.stringify(response.data))
             getAllPosts()
+            getPersonalDatas()
             userCheck()
-
         })
     }
     const onFailure = (response)=>{

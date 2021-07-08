@@ -7,72 +7,14 @@ import axios from 'axios'
 import Notifications from './Notifications'
 import UpdateMenu from './UpdateMenu';
 import Requests from './Requests';
+import PersonProfile from '../smallComponents/PersonProfile';
 
-const Profile = ({ user, userCheck }) => {
+const Profile = ({ user, userCheck, requests, myFriends, requestAction }) => {
 
     const [showNotification, setShowNotification] = useState(false)
     const [showSettings, setShowSettings] = useState(false)
     const [showRequests, setShowRequests] = useState(false)
 
-    const [requests,setRequests] = useState([])
-    const [myFriends,setMyFriends] = useState([])
-
-    useEffect(()=>{
-        getMyRequests()
-        getMyFriends()
-    },[])
-
-    const getMyRequests = ()=>{
-        axios({
-            method:"GET",
-            url:'http://localhost:5000/request/my_requests',
-            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`},
-        }).then((response)=>{
-            setRequests(response.data)
-        })
-    }
-
-    const getMyFriends = ()=>{
-        axios({
-            method:"GET",
-            url:'http://localhost:5000/user/my_friends',
-            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`},
-        }).then((response)=>{
-            setMyFriends(response.data)
-        })
-    }
-
-    const requestAction = (action,r_id)=>{
-        axios({
-            method:"GET",
-            url:`http://localhost:5000/request/${action}/${r_id}`,
-            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`},
-        }).then((response)=>{
-            if(action == 'accept'){
-                localStorage.setItem('user', JSON.stringify(response.data))
-            }
-            getMyRequests()
-        })
-    }
-
-    let items = []
-
-    for (var i = 0; i < 50; i++) {
-        items.push(
-            <Media className="px-2 py-1 rounded">
-                <Media.Body>
-                    <div class="d-flex justify-content-between pr-1">
-                        <div className="d-flex flex-column">
-                            <>Pagename</>
-                            <small>Sir Name</small>
-                        </div>
-                        <div><Badge variant="primary">View</Badge></div>
-                    </div>
-                    <hr className="my-0" />
-                </Media.Body>
-            </Media>
-        )
-    }
 
     const profileItems = () => {
         return (
@@ -122,32 +64,19 @@ const Profile = ({ user, userCheck }) => {
                                                 <hr className="my-0" />
                                             </Media.Body>
                                         </Media>
-                                        {items}
                                     </Scrollbars>
                                 </Card.Body>
                             </Accordion.Collapse>
                         </Card>
                         <Card>
                             <Accordion.Toggle className="py-1" as={Card.Header} eventKey="1">
-                                <b>Friends</b>
+                                <b>Friends ( {myFriends.length} )</b> 
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey="1">
                                 <Card.Body className="px-0 py-1">
                                     <Scrollbars style={{ height: "45vh" }}>
                                         {myFriends.map((friend)=>(
-                                            <Card className="p-1 m-1">
-                                                <div className="d-flex justify-content-between">
-                                                    <div className="d-flex justify-content-start">
-                                                        <Image width={45} height={45} className="mr-3" src={friend.avatar} roundedCircle />
-                                                        <div>
-                                                            <div>
-                                                                <small><b>{friend.name}</b></small>
-                                                            </div>
-                                                            <small>{friend.userType}</small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </Card>
+                                            <PersonProfile friend={friend} />
                                         ))}
                                     </Scrollbars>
                                 </Card.Body>
@@ -158,7 +87,6 @@ const Profile = ({ user, userCheck }) => {
             </>
         )
     }
-
 
     return (
         <>

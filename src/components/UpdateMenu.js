@@ -41,7 +41,7 @@ const UpdateMenu = ({ user, userCheck }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (formData.userType == "Student" && (!formData.medium || !formData.grade || !formData.district)) return
+        if (formData.userType === "Student" && (!formData.medium || !formData.grade || !formData.district)) return
         axios({
             method: "POST",
             headers: {
@@ -179,7 +179,7 @@ const UpdateMenu = ({ user, userCheck }) => {
                     </Form.Control>
                 </Col>
             </Form.Row>
-            {usertype == "Student" ? (studentForm) : usertype == "Teacher" ? (<>Teacher</>) : (<>School</>)}
+            {usertype === "Student" ? (studentForm) : usertype === "Teacher" ? (<>Teacher</>) : (<>School</>)}
         </Card>
     )
 }

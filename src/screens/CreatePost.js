@@ -24,7 +24,7 @@ const CreatePost = () => {
     const youtube_parser = (url)=>{
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
         var match = url.match(regExp);
-        return (match&&match[7].length==11)? match[7] : false;
+        return (match&&match[7].length===11)? match[7] : false;
     }
 
     const setYoutubeId = (e)=>{
@@ -34,7 +34,7 @@ const CreatePost = () => {
 
     const getYoutubeUrl = ()=>{
         var url = `https://www.youtube.com/watch?v=${postData&&postData.youtubeId}`
-        if(url == "https://www.youtube.com/watch?v=undefined")  return ""
+        if(url === "https://www.youtube.com/watch?v=undefined")  return ""
         else return url
     }
 

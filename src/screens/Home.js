@@ -13,11 +13,20 @@ import CreatePost from '../components/CreatePost';
 
 const Home = ({user,userCheck}) => {
     const [posts,setPosts] = useState([])
+    const [requests,setRequests] = useState([])
+    const [myFriends,setMyFriends] = useState([])
+    
 
     useEffect(() => {
         userCheck();
         getAllPosts();
+        getPersonalDatas()
     },[])
+
+    const getPersonalDatas = ()=>{
+        getMyRequests()
+        getMyFriends()
+    }
 
     const updatePosts = (update)=>{
         const index = posts.findIndex(post => post._id === update._id)
@@ -33,6 +42,7 @@ const Home = ({user,userCheck}) => {
         return ""
     }
 
+
     const getAllPosts = ()=>{
         getToken()
         axios({
@@ -44,23 +54,67 @@ const Home = ({user,userCheck}) => {
         })
     }
 
+    const getMyRequests = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/request/my_requests',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            setRequests(response.data)
+        })
+    }
+
+    const getMyFriends = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/user/my_friends',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            setMyFriends(response.data)
+        })
+    }
+
+    const requestAction = (action,r_id)=>{
+        axios({
+            method:"GET",
+            url:`http://localhost:5000/request/${action}/${r_id}`,
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            if(action === 'accept'){
+                localStorage.setItem('user', JSON.stringify(response.data))
+            }
+            getMyRequests()
+        })
+    }
     
     return (
         <div>
             <Container fluid>
                 <Row className="mt-5">
                     <Col className="d-none d-md-block pr-0" md={4} lg={3} >
-                        {user && user.user ? <Profile user={user} userCheck={userCheck} /> : <Login getAllPosts={getAllPosts} userCheck={userCheck} />}
+                        {user && user.user ? 
+                            (<Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests}/>) 
+                            : 
+                            (<Login getAllPosts={getAllPosts} userCheck={userCheck} getPersonalDatas={getPersonalDatas}/>
+                        )}
                     </Col>
                     <Col className="px-0" md={8} lg={6}>
                         <Scrollbars autoHide autoHideTimeout={100} autoHideDuration={100} style={{ height: "100vh" }} className="mt-3">
-                            {user && user.user ? <><SmallProfile user={user} userCheck={userCheck} /> {user.user&&user.user.updated && <><SchoolNotifications /><CreatePost /></>}</> : <div className="mx-2 mb-1 d-block d-md-none"><Login getAllPosts={getAllPosts} userCheck={userCheck} /></div>}
+                            {user && user.user ? 
+                            (<>
+                                <SmallProfile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} /> 
+                                {user.user&&user.user.updated && <><SchoolNotifications /><CreatePost /></>}
+                            </> )
+                            : 
+                            (<div className="mx-2 mb-1 d-block d-md-none">
+                                <Login getAllPosts={getAllPosts} userCheck={userCheck} getPersonalDatas={getPersonalDatas}/>
+                            </div>)}
 
                             {posts.length?posts.map((post)=>(<Post key={post._id} postData={post} user={user} updatePosts={updatePosts} />)):""}
                         </Scrollbars>
                     </Col>
                     <Col className="d-none d-lg-block px-0" lg={3}>
-                        <Search />
+                        <Search user={user} />
                     </Col>
                 </Row>
             </Container>

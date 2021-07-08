@@ -6,12 +6,11 @@ import Profile from './Profile'
 import Search from './Search'
 import UpdateMenu from './UpdateMenu';
 
-const SmallProfile = ({ user, userCheck }) => {
+const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction }) => {
 
     const [profileShow, setProfileShow] = useState(false)
     const [searchShow, setSearchShow] = useState(false)
     const [show, setShow] = useState(false)
-
 
 
     const popover = (
@@ -47,13 +46,13 @@ const SmallProfile = ({ user, userCheck }) => {
                 <Modal.Header className="py-0 pt-2" closeButton>
                     <Modal.Title >My Profile</Modal.Title>
                 </Modal.Header>
-                <Profile user={user} userCheck={userCheck} />
+                <Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction}/>
             </Modal>
             <Modal show={searchShow} onHide={() => setSearchShow(false)} >
                 <Modal.Header className="py-0 pt-2" closeButton>
                     <Modal.Title >Search</Modal.Title>
                 </Modal.Header>
-                <Search />
+                <Search user={user}/>
             </Modal>
         </Card>
     )
