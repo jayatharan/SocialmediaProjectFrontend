@@ -2,44 +2,16 @@ import { useState,useEffect } from 'react';
 import { Card, Image, Spinner } from 'react-bootstrap';
 import axios from 'axios'
 
-
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";
+import { FiUserCheck } from "react-icons/fi";
 
-
-const PersonSearch = ({ user, requested, person, searchPeople}) => {
+const PersonSearch = ({ user, requested, person, personPefresh, friendRequestAction}) => {
     const [loading,setLoading] = useState(false)
 
-    const getToken = ()=>{
-        const user = JSON.parse(localStorage.getItem("user"))
-        if(user){
-            return user.token
-        }
-        return ""
-    }
-
-    const sendFriendRequest = (u_id)=>{
-
-        axios({
-            method:"GET",
-            url:`http://localhost:5000/request/send/${u_id}`,
-            headers: {"Authorization" : `Bearer ${getToken()}`},
-        }).then((response)=>{
-            searchPeople()
-            setLoading(false)
-        })
-    }
-
-    const cancelFriendRequest = (u_id)=>{
-        axios({
-            method:"GET",
-            url:`http://localhost:5000/request/cancel/${u_id}`,
-            headers: {"Authorization" : `Bearer ${getToken()}`},
-        }).then((response)=>{
-            searchPeople()
-            setLoading(false)
-        })
-    }
+    useEffect(()=>{
+        setLoading(false)
+    },[personPefresh])
 
 
     return (
@@ -59,24 +31,29 @@ const PersonSearch = ({ user, requested, person, searchPeople}) => {
                 <div>
                     {user&&(
                         <div>
-                            {loading?<Spinner size="sm" animation="grow" />:
-                            (<>
-                            {requested.includes(person._id)?
-                                (<GiCancel  className="user-select-none" onClick={()=>
-                                    {   
-                                        setLoading(true)
-                                        cancelFriendRequest(person._id)
-                                    }
-                                } />)
-                                :
-                                (<AiOutlineUserAdd className="user-select-none text-primary" onClick={()=>
-                                    {
-                                        setLoading(true)
-                                        sendFriendRequest(person._id)
-                                    }
-                                } />)
-                            }
-                            </>)
+                            {user.user.friends.includes(person._id)?(<>
+                                <FiUserCheck className="text-success"/>
+                                </>):(<>
+                                {loading?<Spinner size="sm" animation="grow" />:
+                                (<>
+                                {requested.includes(person._id)?
+                                    (<GiCancel  className="user-select-none text-danger" onClick={()=>
+                                        {   
+                                            setLoading(true)
+                                            friendRequestAction('cancel',person._id)
+                                        }
+                                    } />)
+                                    :
+                                    (<AiOutlineUserAdd className="user-select-none text-primary" onClick={()=>
+                                        {
+                                            setLoading(true)
+                                            friendRequestAction('send',person._id)
+                                        }
+                                    } />)
+                                }
+                                </>)
+                                }
+                                </>)
                             }
                         </div>
                     )}

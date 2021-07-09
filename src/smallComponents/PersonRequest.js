@@ -17,7 +17,7 @@ const PersonRequest = ({req, requestAction }) => {
                             <small><b>{req.fromUser.name}</b></small>
                         </div>
                         <small style={{position:'absolute', top:'50%'}} >
-                            User Type
+                            {req.fromUser.userType}
                         </small>
                     </div>
                 </div>

@@ -26,7 +26,6 @@ const Home = ({user,userCheck}) => {
     const getPersonalDatas = ()=>{
         getMyRequests()
         getMyFriends()
-        console.log(refresh)
         doRefresh(prev => prev + 1)
     }
 
@@ -84,6 +83,7 @@ const Home = ({user,userCheck}) => {
         }).then((response)=>{
             if(action === 'accept'){
                 localStorage.setItem('user', JSON.stringify(response.data))
+                getMyFriends()
             }
             getMyRequests()
         })

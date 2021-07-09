@@ -70,13 +70,13 @@ const Profile = ({ user, userCheck, requests, myFriends, requestAction }) => {
                         </Card>
                         <Card>
                             <Accordion.Toggle className="py-1" as={Card.Header} eventKey="1">
-                                <b>Friends ( {myFriends.length} )</b> 
+                                <b>Friends ( <small>{myFriends.length}</small> )</b> 
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey="1">
                                 <Card.Body className="px-0 py-1">
                                     <Scrollbars style={{ height: "45vh" }}>
                                         {myFriends.map((friend)=>(
-                                            <PersonProfile friend={friend} />
+                                            <PersonProfile key={friend._id} friend={friend} />
                                         ))}
                                     </Scrollbars>
                                 </Card.Body>

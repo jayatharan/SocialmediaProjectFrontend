@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {InputGroup, FormControl, Button,  Accordion, Card, Media, Badge,Image} from 'react-bootstrap';
+import {InputGroup, FormControl, Button,  Accordion, Card, Media, Badge, Spinner} from 'react-bootstrap';
 import { FaSearch } from "react-icons/fa";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import axios from 'axios'
@@ -7,11 +7,14 @@ import axios from 'axios'
 import PersonSearch from '../smallComponents/PersonSearch';
 
 const Search = ({user,refresh}) => {
-
+    const [loading,setLoading] = useState(false)
     const [people,setPeople] = useState([])
     const [requested,setRequested] = useState([])
+    const [personPefresh, doPersonRefresh] = useState(0);
+    const [keyword,setKeyword] = useState("")
 
     useEffect(()=>{
+        setKeyword("")
         searchPeople()
     },[refresh])
 
@@ -22,15 +25,33 @@ const Search = ({user,refresh}) => {
         }
         return ""
     }
+    
+    const getKeyword = ()=>{
+        if(keyword) return keyword
+        else return 'none'
+    }
 
     const searchPeople = ()=>{
+        setLoading(true)
         axios({
             method:"GET",
-            url:'http://localhost:5000/user/search',
+            url:`http://localhost:5000/user/search/${getKeyword()}`,
             headers: {"Authorization" : `Bearer ${getToken()}`},
         }).then((response)=>{
             setPeople(response.data.people)
             setRequested(response.data.requestedIds)
+            doPersonRefresh(prev=>prev+1)
+            setLoading(false)
+        })
+    }
+
+    const friendRequestAction = (action,u_id)=>{
+        axios({
+            method:"GET",
+            url:`http://localhost:5000/request/${action}/${u_id}`,
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            searchPeople()
         })
     }
 
@@ -41,9 +62,13 @@ const Search = ({user,refresh}) => {
                     placeholder="Search"
                     aria-label="Recipient's username"
                     aria-describedby="basic-addon2"
+                    value = {keyword}
+                    onChange = {(e)=>setKeyword(e.target.value)}
                 />
                 <InputGroup.Append>
-                    <Button variant="outline-primary"><FaSearch /></Button>
+                    <Button onClick={searchPeople} variant="outline-primary">
+                        {loading?<Spinner size="sm" animation="border"/>:<FaSearch />}
+                    </Button>
                 </InputGroup.Append>
             </InputGroup>
             <hr className="my-1" />
@@ -84,14 +109,15 @@ const Search = ({user,refresh}) => {
                                 {
                                 people.map((person)=>
                                     (<PersonSearch 
+                                        key={person._id}
                                         user={user} 
                                         requested={requested} 
                                         person={person} 
-                                        searchPeople={searchPeople}
+                                        personPefresh={personPefresh}
+                                        friendRequestAction={friendRequestAction}
                                     />)
                                 )
                                 }
-                                
                             </Scrollbars>
                         </Card.Body>
                     </Accordion.Collapse>
