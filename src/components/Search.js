@@ -64,6 +64,7 @@ const Search = ({user,refresh}) => {
                     aria-describedby="basic-addon2"
                     value = {keyword}
                     onChange = {(e)=>setKeyword(e.target.value)}
+                    onKeyPress={(e)=>{if(e.key === 'Enter')searchPeople()}}
                 />
                 <InputGroup.Append>
                     <Button onClick={searchPeople} variant="outline-primary">

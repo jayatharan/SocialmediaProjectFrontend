@@ -86,6 +86,8 @@ const Home = ({user,userCheck}) => {
                 getMyFriends()
             }
             getMyRequests()
+        }).catch((err)=>{
+            getMyRequests()
         })
     }
     
