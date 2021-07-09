@@ -6,24 +6,43 @@ import axios from 'axios'
 const CreatePost = () => {
     const history = useHistory();
 
-    const [loading,setLoading] = useState(false)
+    const [postLoading,setPostLoading] = useState(false)
+    const [questionLoading,setQuestionLoading] = useState(false)
 
-    const moveToEditPage = ()=>{
-        setLoading(!loading)
+    const moveToPostEditPage = ()=>{
+        setPostLoading(true)
         axios({
             method:"GET",
             url:'http://localhost:5000/post/create',
             headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`}
         }).then((response)=>{
-            history.push(`edit/${response.data.post_id}`)
-            setLoading(false)
+            history.push(`edit/${response.data._id}`)
+            console.log(response.data)
+            setPostLoading(false)
+        }).catch((err)=>{
+            setPostLoading(false)
+        })
+    }
+
+    const moveToQuestionEditPage = ()=>{
+        setQuestionLoading(true)
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/question/create',
+            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`}
+        }).then((response)=>{
+            //history.push(`edit/${response.data._id}`)
+            console.log(response.data)
+            setQuestionLoading(false)
+        }).catch((err)=>{
+            setPostLoading(false)
         })
     }
 
     return (
         <div className="d-flex justify-content-between mx-2 pt-1 ">
-            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-primary" onClick={moveToEditPage}>Create New Post {loading&&<Spinner size="sm" animation="border" variant="dark" />}</Button></div>
-            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-success">Ask Question</Button></div>
+            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-primary" onClick={moveToPostEditPage}>Create New Post {postLoading&&<Spinner size="sm" animation="border" />}</Button></div>
+            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-success" onClick={moveToQuestionEditPage}>Ask Question {questionLoading&&<Spinner size="sm" animation="border" />}</Button></div>
         </div>
     )
 }
