@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import { BrowserRouter, Link, Route } from 'react-router-dom';
-
+import axios from 'axios'
 
 import Navigation from './components/Navigation'
 import Home from './screens/Home'
@@ -14,14 +14,36 @@ function App() {
 
   const [user, setUser] = useState(null)
 
-    const userCheck = () => { 
-        if(localStorage.getItem('user')) setUser(JSON.parse(localStorage.getItem('user'))) 
+  const getToken = ()=>{
+        const user = JSON.parse(localStorage.getItem("user"))
+        if(user){
+            return user.token
+        }
+        return ""
+    }
+  
+  const getUserData = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/user/my_data',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            localStorage.setItem('user', JSON.stringify(response.data))
+        }).catch((err)=>{
+            localStorage.setItem('user', "")
+            setUser(null)
+        })
     }
 
-    const logout = () => {
-        localStorage.removeItem('user')
-        setUser(null)
-    }
+  const userCheck = () => { 
+    getUserData()  
+    if(localStorage.getItem('user')) setUser(JSON.parse(localStorage.getItem('user'))) 
+  }
+
+  const logout = () => {
+      localStorage.removeItem('user')
+      setUser(null)
+  }
 
   return (
     <BrowserRouter>

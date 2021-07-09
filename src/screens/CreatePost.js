@@ -34,7 +34,7 @@ const CreatePost = () => {
 
     const getYoutubeUrl = ()=>{
         var url = `https://www.youtube.com/watch?v=${postData&&postData.youtubeId}`
-        if(url === "https://www.youtube.com/watch?v=undefined")  return ""
+        if(url === "https://www.youtube.com/watch?v=undefined" || url === "https://www.youtube.com/watch?v=false")  return ""
         else return url
     }
 

@@ -15,7 +15,7 @@ const Home = ({user,userCheck}) => {
     const [posts,setPosts] = useState([])
     const [requests,setRequests] = useState([])
     const [myFriends,setMyFriends] = useState([])
-    const [refresh, doRefresh] = useState(0);
+    const [refresh, doRefresh] = useState(0)
 
     useEffect(() => {
         userCheck();
@@ -42,7 +42,6 @@ const Home = ({user,userCheck}) => {
         }
         return ""
     }
-
 
     const getAllPosts = ()=>{
         getToken()
@@ -90,18 +89,20 @@ const Home = ({user,userCheck}) => {
             getMyRequests()
         })
     }
-    
+
     return (
         <div style={{height:'100vh'}}>
             <Container style={{height:'100%'}} fluid>
                 <Row className="pt-5">
+
                     <Col className="d-none d-md-block pr-0" md={4} lg={3} >
                         {user && user.user ? 
                             (<Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests}/>) 
                             : 
                             (<Login getAllPosts={getAllPosts} userCheck={userCheck} getPersonalDatas={getPersonalDatas}/>
                         )}
-                    </Col>
+                    </Col>       
+
                     <Col className="px-0" md={8} lg={6}>
                         <Scrollbars 
                         autoHide 
@@ -122,9 +123,11 @@ const Home = ({user,userCheck}) => {
                             {posts.length?posts.map((post)=>(<Post key={post._id} postData={post} user={user} updatePosts={updatePosts} />)):""}
                         </Scrollbars>
                     </Col>
+
                     <Col className="d-none d-lg-block px-0" lg={3}>
                         <Search user={user} refresh={refresh}/>
                     </Col>
+                    
                 </Row>
             </Container>
         </div>

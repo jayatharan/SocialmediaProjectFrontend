@@ -1,8 +1,7 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { Modal, Media, Badge, Accordion, Card, Image, Button } from 'react-bootstrap';
 import { FiSettings } from "react-icons/fi";
-import axios from 'axios'
 
 import Notifications from './Notifications'
 import UpdateMenu from './UpdateMenu';

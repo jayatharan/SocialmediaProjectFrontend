@@ -7,7 +7,11 @@ import { BiLike, BiComment, BiShare } from "react-icons/bi";
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import axios from 'axios'
 
+import Comments from './Comments'
+
 const Post = ({ postData,user,updatePosts }) => {
+
+    const [showComment,setShowComment] = useState(false)
 
     const [like,setLike] = useState(false)
     const [likeCnt,setLikeCnt] = useState(0)
@@ -60,6 +64,7 @@ const Post = ({ postData,user,updatePosts }) => {
             </Popover.Content>
         </Popover>
     );
+    
 
     return (
         <Modal.Dialog size="lg" className="my-1">
@@ -124,10 +129,19 @@ const Post = ({ postData,user,updatePosts }) => {
                     )}
                 </Tabs>
             ):""}
+
+            <div className="d-flex justify-content-end pr-2"><small>{postData.commentCount} comments</small><small className="ml-2">0 shares</small></div>
+
             {user&&(
             <div className="d-flex justify-content-around pb-2">
                 <Button className="py-0" variant={like&&"primary"} onClick={likePost} size='sm' ><BiLike /> Like <Badge variant="dark">{likeCnt}</Badge></Button>
-                <Button className="py-0" variant=""><BiComment /> Comment</Button>
+                <Button className="py-0" variant="" onClick={() => setShowComment(true)} ><BiComment /> Comment</Button>
+                <Modal className="px-0" show={showComment} onHide={() => setShowComment(false)} centered>
+                    <Modal.Header className="py-0 pt-2" closeButton>
+                        <Modal.Title >Comments</Modal.Title>
+                    </Modal.Header>
+                        <Comments user={user} postId={postData._id} postUserId={postData.userId}/>
+                </Modal>
                 <Button className="py-0" variant=""><BiShare /> Share</Button>
             </div>
             )}
