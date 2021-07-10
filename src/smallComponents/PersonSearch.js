@@ -1,6 +1,5 @@
 import { useState,useEffect } from 'react';
 import { Card, Image, Spinner } from 'react-bootstrap';
-import axios from 'axios'
 
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { GiCancel } from "react-icons/gi";

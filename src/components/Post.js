@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react'
-import { Tabs, Tab, Modal, Media, Popover, OverlayTrigger, Row, Col, Card, Button, Badge, Image } from 'react-bootstrap';
+import {useState, useEffect, useRef} from 'react'
+import { Tabs, Tab, Modal, Media, Popover, OverlayTrigger, Overlay, Row, Col, Card, Button, Badge, Image } from 'react-bootstrap';
 import YouTube from 'react-youtube';
 import { FiMoreVertical } from "react-icons/fi";
 import png from '../pdf.png';
@@ -8,10 +8,14 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import axios from 'axios'
 
 import Comments from './Comments'
+import EditPost from './EditPost';
 
-const Post = ({ postData,user,updatePosts }) => {
+const Post = ({ postData, user, updatePosts, showPopup, popEditPost }) => {
 
     const [showComment,setShowComment] = useState(false)
+    const [show,setShow] = useState(true)
+    const [target, setTarget] = useState(null);
+    const ref = useRef(null);
 
     const [like,setLike] = useState(false)
     const [likeCnt,setLikeCnt] = useState(0)
@@ -55,27 +59,32 @@ const Post = ({ postData,user,updatePosts }) => {
             })
         }
     }
-
-    const popover = (
-        <Popover id="popover-basic">
-            <Popover.Title as="h5">Report Post</Popover.Title>
-            <Popover.Content>
-            Report Related Things will show here
-            </Popover.Content>
-        </Popover>
-    );
     
+    const handleClick = (event) => {
+        setShow(!show);
+        if(target === null) setTarget(event.target);
+    };
+
+    const openEditPost = ()=>{
+        popEditPost(postData._id)
+    }
+
+    const isMyPost = ()=>{
+        if(postData){
+            if(user){
+                if(user.user._id == postData.userId){
+                    return true
+                }
+                return false
+            }
+            return false
+        }
+        return false
+    }
 
     return (
         <Modal.Dialog size="lg" className="my-1">
             <Media className="px-2 pt-1">
-                    {/* <img
-                        width={45}
-                        height={45}
-                        className="mr-3" 
-                        src="https://source.unsplash.com/random"
-                        alt="Generic placeholder"
-                    /> */}
                     <Image width={45} height={45} className="mr-3" src={postData&&(postData.user.avatar)} roundedCircle />
                     <Media.Body>
                         <div class="d-flex justify-content-between">    
@@ -84,9 +93,26 @@ const Post = ({ postData,user,updatePosts }) => {
                             <small>{postData&&postData.createdAt}</small>
                             </div>
 
-                            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
-                                <div><FiMoreVertical /></div>
-                            </OverlayTrigger>
+                            <div ref={ref} >
+                                <FiMoreVertical onClick={handleClick} />
+                            
+
+                                <Overlay
+                                    show={showPopup&&show}
+                                    target={target}
+                                    placement="left"
+                                    container={ref.current}
+                                    containerPadding={20}
+                                >
+                                    <Popover id="popover-contained">
+                                    {/* <Popover.Title as="h3">Popover bottom</Popover.Title> */}
+                                    <Popover.Content>
+                                        {isMyPost()&&<div onClick={openEditPost}>Edit Post</div>}
+                                    </Popover.Content>
+                                    </Popover>
+                                </Overlay>
+                            </div>
+
                         </div>
                     </Media.Body>
             </Media>

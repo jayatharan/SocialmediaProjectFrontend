@@ -6,7 +6,7 @@ import Profile from './Profile'
 import Search from './Search'
 import UpdateMenu from './UpdateMenu';
 
-const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction }) => {
+const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction, setShowPopup }) => {
 
     const [profileShow, setProfileShow] = useState(false)
     const [searchShow, setSearchShow] = useState(false)
@@ -16,9 +16,9 @@ const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction }) =
     const popover = (
         <Popover id="popover-basic">
             <Popover.Content>
-                <div onClick={() => { setProfileShow(true); setShow(false) }}>My Profile</div>
+                <div onClick={() => { setProfileShow(true); setShow(false); setShowPopup(false) }}>My Profile</div>
                 <br />
-                <div onClick={() => { setSearchShow(true); setShow(false) }}>Search Pages/People</div>
+                <div onClick={() => { setSearchShow(true); setShow(false); setShowPopup(false) }}>Search Pages/People</div>
             </Popover.Content>
         </Popover>
     );
@@ -42,13 +42,13 @@ const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction }) =
                 </Media.Body>
             </Media>
             {user.user.updated || <UpdateMenu user={user} userCheck={userCheck} />}
-            <Modal className="px-0" show={profileShow} onHide={() => setProfileShow(false)} >
+            <Modal className="px-0" show={profileShow} onHide={() => {setProfileShow(false); setShowPopup(true)}} >
                 <Modal.Header className="py-0 pt-2" closeButton>
                     <Modal.Title >My Profile</Modal.Title>
                 </Modal.Header>
-                <Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction}/>
+                <Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} setShowPopup={setShowPopup} />
             </Modal>
-            <Modal show={searchShow} onHide={() => setSearchShow(false)} >
+            <Modal show={searchShow} onHide={() => {setSearchShow(false); setShowPopup(true)}} >
                 <Modal.Header className="py-0 pt-2" closeButton>
                     <Modal.Title >Search</Modal.Title>
                 </Modal.Header>

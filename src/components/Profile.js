@@ -8,7 +8,7 @@ import UpdateMenu from './UpdateMenu';
 import Requests from './Requests';
 import PersonProfile from '../smallComponents/PersonProfile';
 
-const Profile = ({ user, userCheck, requests, myFriends, requestAction }) => {
+const Profile = ({ user, userCheck, requests, myFriends, requestAction, setShowPopup }) => {
 
     const [showNotification, setShowNotification] = useState(false)
     const [showSettings, setShowSettings] = useState(false)
@@ -19,19 +19,19 @@ const Profile = ({ user, userCheck, requests, myFriends, requestAction }) => {
         return (
             <>
                 <div className="p-1">
-                    <Button variant="" className="py-0" onClick={() => setShowNotification(true)}>
+                    <Button variant="" className="py-0" onClick={() => {setShowNotification(true); setShowPopup(false)}}>
                         Notifications <Badge variant="primary">12</Badge>
                     </Button>
-                    <Modal className="px-0" show={showNotification} onHide={() => setShowNotification(false)} >
+                    <Modal className="px-0" show={showNotification} onHide={() => {setShowNotification(false); setShowPopup(true)}} >
                         <Modal.Header className="py-0 pt-2" closeButton>
                             <Modal.Title >My Notifications</Modal.Title>
                         </Modal.Header>
                         <Notifications />
                     </Modal>
-                    <Button variant="" className="py-0" onClick={() => setShowRequests(true)}>
+                    <Button variant="" className="py-0" onClick={() => {setShowRequests(true); setShowPopup(false)}}>
                         Requests <Badge variant="success">{requests.length}</Badge>
                     </Button>
-                    <Modal className="px-0" show={showRequests} onHide={() => setShowRequests(false)} >
+                    <Modal className="px-0" show={showRequests} onHide={() => {setShowRequests(false); setShowPopup(true)}} >
                         <Modal.Header className="py-0 pt-2" closeButton>
                             <Modal.Title >My Requests</Modal.Title>
                         </Modal.Header>

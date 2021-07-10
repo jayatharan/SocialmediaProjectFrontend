@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Spinner } from 'react-bootstrap';
 import axios from 'axios'
 
-const CreatePost = () => {
+const CreatePost = ({popEditPost}) => {
     const history = useHistory();
 
     const [postLoading,setPostLoading] = useState(false)
@@ -16,9 +16,8 @@ const CreatePost = () => {
             url:'http://localhost:5000/post/create',
             headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`}
         }).then((response)=>{
-            history.push(`edit/${response.data._id}`)
-            console.log(response.data)
             setPostLoading(false)
+            popEditPost(response.data._id)
         }).catch((err)=>{
             setPostLoading(false)
         })
