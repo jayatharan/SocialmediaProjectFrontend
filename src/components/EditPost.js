@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Row, Col, Form, Button, Spinner, Modal, Alert } from 'react-bootstrap';
 import { Scrollbars } from 'react-custom-scrollbars-2';
+// import useDrivePicker from 'react-google-drive-picker'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import axios from 'axios'
 
 import Post from './Post'
 
 const EditPost = ({p_id}) => {
+    // const [openPicker, data] = useDrivePicker();  
     const [loading,setLoading] = useState(false)
     const [postData,setPostData] = useState(null)
     const [showHeader, setShowHeader] = useState(false);
@@ -73,6 +77,26 @@ const EditPost = ({p_id}) => {
         setTimeout(() => setShowHeader(false), 2000);
     }
 
+    // const handleOpenPicker = () => {
+    //     openPicker({
+    //     clientId: "xxxxxxxxxxxxxxxxx",
+    //     developerKey: "xxxxxxxxxxxx",
+    //     viewId: "DOCS",
+    //     // token: token, // pass oauth token in case you already have one
+    //     showUploadView: true,
+    //     showUploadFolders: true,
+    //     supportDrives: true,
+    //     multiselect: true,
+    //     // customViews: customViewsArray, // custom view
+    //     })
+    // }
+
+    const handleQuill = (e)=>{
+        if(postData){
+            setPostData({...postData,["description"]:e})
+        }
+    }
+
     return (
         <div>
             <Scrollbars style={{ height: "80vh" }}>
@@ -98,17 +122,23 @@ const EditPost = ({p_id}) => {
                                     </Form.Group>
                                     <Form.Group controlId="postDescription" className="mb-0">
                                         <Form.Label className="mb-0">Description</Form.Label>
-                                        <Form.Control as="textarea" rows={5} name="description" onChange={handleChange} className="py-0" type="text" value={postData&&postData.description} />
+                                        {/* <Form.Control as="textarea" rows={5} name="description" onChange={handleChange} className="py-0" type="text" value={postData&&postData.description} /> */}
+                                        <ReactQuill theme="snow" value={postData&&postData.description} onChange={handleQuill} />
                                     </Form.Group>
-                                     <Button className="mt-2" variant="primary" size="sm" block onClick={updatePostValues} >
-                                        Update Post {loading&&(<Spinner className="ml-2" size="sm" animation="border" variant="dark" />)}
-                                    </Button>
+                                    {/* <Button className="mt-2" variant="primary" size="sm" block onClick={handleOpenPicker} >
+                                        OpenPicker
+                                    </Button> */}
+                                    <Form.Group controlId="postDescription" className="mb-0">
+                                        <Button className="mt-2" variant="primary" size="sm" block onClick={updatePostValues} >
+                                            Update Post {loading&&(<Spinner className="ml-2" size="sm" animation="border" variant="dark" />)}
+                                        </Button>
+                                    </Form.Group>
                                 </Form>
                             </Modal.Body>
                         </Modal.Dialog>
                     </Col>
-                    <Col xs={12} sm={12} md={12} lg={12} className="px-0 mt-2">
-                        {postData&&<Post postData={postData} />}
+                    <Col xs={12} sm={12} md={12} lg={12} className="px-1 mt-2">
+                        {postData?<Post postData={postData} />:""}
                     </Col>
                 </Row>
             </Scrollbars>

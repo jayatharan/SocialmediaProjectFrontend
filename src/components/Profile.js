@@ -53,7 +53,7 @@ const Profile = ({ user, userCheck, requests, myFriends, requestAction, setShowP
                                     <Scrollbars style={{ height: "45vh" }}>
                                         <Media className="px-2 py-1 rounded">
                                             <Media.Body>
-                                                <div class="d-flex justify-content-between pr-1">
+                                                <div className="d-flex justify-content-between pr-1">
                                                     <div className="d-flex flex-column">
                                                         <>Pagename</>
                                                         <small>Sir Name</small>

@@ -8,11 +8,16 @@ import Home from './screens/Home'
 import Login from './screens/Login'
 import CreatePost from './screens/CreatePost';
 import Profile from './screens/Profile'
-
+import Questions from './screens/Questions';
+import TextEditor from './screens/TextEditor';
 
 function App() {
 
   const [user, setUser] = useState(null)
+
+  useEffect(()=>{
+    userCheck()
+  },[])
 
   const getToken = ()=>{
         const user = JSON.parse(localStorage.getItem("user"))
@@ -29,6 +34,7 @@ function App() {
             headers: {"Authorization" : `Bearer ${getToken()}`},
         }).then((response)=>{
             localStorage.setItem('user', JSON.stringify(response.data))
+            setUser(response.data)
         }).catch((err)=>{
             localStorage.setItem('user', "")
             setUser(null)
@@ -37,7 +43,9 @@ function App() {
 
   const userCheck = () => { 
     getUserData()  
-    if(localStorage.getItem('user')) setUser(JSON.parse(localStorage.getItem('user'))) 
+    if(localStorage.getItem('user')) {
+      setUser(JSON.parse(localStorage.getItem('user')))
+    } 
   }
 
   const logout = () => {
@@ -51,9 +59,13 @@ function App() {
       <Route path='/' exact>
         <Home user={user} setUser={setUser} userCheck={userCheck} logout={logout} />
       </Route>
+      {/* <Route path='/questions'>
+        <Questions user={user} />
+      </Route> */}
       <Route path='/edit/:id'><CreatePost /></Route>
       <Route path='/profile/:id'><Profile /></Route>
       <Route path='/login' component={Login}/>
+      {/* <Route path='/text'><TextEditor /></Route> */}
     </BrowserRouter>
   );
 }

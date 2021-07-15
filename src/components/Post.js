@@ -1,14 +1,14 @@
 import {useState, useEffect, useRef} from 'react'
-import { Tabs, Tab, Modal, Media, Popover, OverlayTrigger, Overlay, Row, Col, Card, Button, Badge, Image } from 'react-bootstrap';
+import { Tabs, Tab, Modal, Media, Popover, Overlay, Row, Col, Card, Button, Badge, Image } from 'react-bootstrap';
 import YouTube from 'react-youtube';
 import { FiMoreVertical } from "react-icons/fi";
 import png from '../pdf.png';
 import { BiLike, BiComment, BiShare } from "react-icons/bi";
+import parse from 'html-react-parser';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import axios from 'axios'
 
 import Comments from './Comments'
-import EditPost from './EditPost';
 
 const Post = ({ postData, user, updatePosts, showPopup, popEditPost }) => {
 
@@ -135,21 +135,26 @@ const Post = ({ postData, user, updatePosts, showPopup, popEditPost }) => {
                                         <Card.Body className="p-0 px-1">
                                             <small>FileName.png</small>
                                             <div className="d-flex justify-content-between my-1">
-                                                <Badge pill variant="primary">View</Badge>
-                                                <Badge pill variant="success">
+                                                <Badge pill variant="primary" className="w-100">View</Badge>
+                                                {/* <Badge pill variant="success">
                                                     <a id="all-link" href="http://www.africau.edu/images/default/sample.pdf">Download</a>
-                                                </Badge>
+                                                </Badge> */}
                                             </div>
                                         </Card.Body>
                                     </Card>
                                 </Col>
                             </Row>
                         </Tab>
-                    ):""}
+                    ):(
+                        ""
+                        // <Tab eventKey="file" title="files">
+                        //     <a href="https://drive.google.com/file/d/1hujrhzm_KtcCA36kMfW-eX40AXIQoXcf/view?usp=sharing">File</a>
+                        // </Tab>
+                    )}
                     {postData.description&&(
                         <Tab eventKey="discription" title="Discription">
-                            <Scrollbars style={{ height: "30vh" }}>
-                                <div className="px-2">{postData.description}</div>
+                            <Scrollbars style={{ height: "40vh" }}>
+                                <div className="px-2 pt-1">{parse(postData.description)}</div>
                             </Scrollbars> 
                         </Tab>
                     )}

@@ -4,7 +4,7 @@ import { Navbar, Nav, Form, NavDropdown, FormControl, Button } from 'react-boots
 const Navigation = ({ logout, user }) => {
     return (
         <>
-            <Navbar expand="lg" variant="dark" fixed="top">
+            <Navbar expand="lg" variant="dark" fixed="top" >
                 <Navbar.Brand href="/">OurAppName</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">

@@ -78,12 +78,12 @@ const UpdateMenu = ({ user, userCheck }) => {
     const studentForm =
         <Form onSubmit={handleSubmit}>
             <Form.Row className="align-items-center mb-1">
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Label className="my-1 mr-2" htmlFor="mediumSelect">
                         <small>Medium</small>
                     </Form.Label>
                 </Col>
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Control
                         size="sm"
                         as="select"
@@ -98,17 +98,16 @@ const UpdateMenu = ({ user, userCheck }) => {
                         {choice.medium.map((lan, idx) => (
                             <option key={idx} value={lan}>{lan}</option>
                         ))}
-
                     </Form.Control>
                 </Col>
             </Form.Row>
             <Form.Row className="align-items-center mb-1">
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Label className="my-1 mr-2" htmlFor="gradeSelect">
                         <small>Grade</small>
                     </Form.Label>
                 </Col>
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Control
                         size="sm"
                         as="select"
@@ -127,12 +126,12 @@ const UpdateMenu = ({ user, userCheck }) => {
                 </Col>
             </Form.Row>
             <Form.Row className="align-items-center mb-1">
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Label className="my-1 mr-2" htmlFor="districtSelect">
                         <small>District</small>
                     </Form.Label>
                 </Col>
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Control
                         size="sm"
                         as="select"
@@ -159,12 +158,12 @@ const UpdateMenu = ({ user, userCheck }) => {
     return (
         <Card className="py-1 px-2">
             <Form.Row className="align-items-center mb-1">
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Label className="my-1 mr-2" htmlFor="inlineFormCustomSelectPref">
                         <small>I'm a</small>
                     </Form.Label>
                 </Col>
-                <Col xs="auto">
+                <Col xs="auto" className="w-50">
                     <Form.Control
                         as="select"
                         size="sm"
