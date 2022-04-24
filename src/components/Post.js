@@ -218,7 +218,7 @@ const Post = ({ postData, user, updatePosts, showPopup, popEditPost }) => {
                                 <Scrollbars style={{ height: "50vh" }}>
                                 <Row className="p-1">  
                                     {postData.files.map((file)=>(
-                                        <Col xs={6} sm={4} className="mb-1">
+                                        <Col xs={4} sm={3} className="mb-1">
                                             <Card>
                                                 <Card.Img variant="top" src={file.icon_url} />
                                                 <Card.Body className="p-0 px-1">

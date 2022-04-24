@@ -107,8 +107,8 @@ const EditPost = ({p_id}) => {
     const handleOpenPicker = () => {
 
         openPicker({
-          //clientId:"359230376538-j79misgqm7inonvgpgfkvafa440li4fe.apps.googleusercontent.com",
-          clientId: "686177336588-qhhagupocke5qsclkt0n07h9s6c8bbpu.apps.googleusercontent.com",
+          clientId:"359230376538-j79misgqm7inonvgpgfkvafa440li4fe.apps.googleusercontent.com",
+          //clientId: "686177336588-qhhagupocke5qsclkt0n07h9s6c8bbpu.apps.googleusercontent.com",
           developerKey: "AIzaSyDQ_e-BYGipNfVI23oyqg2A9q4pKho68CI",
           viewId: "DOCS",
           // token: token, // pass oauth token in case you already have one

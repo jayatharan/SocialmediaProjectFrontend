@@ -107,8 +107,8 @@ const EditPost = () => {
 
     const handleOpenPicker = () => {
         openPicker({
-          clientId: "1024970411628-b4s6qus2bui9efecamg85p7e1t9unnsg.apps.googleusercontent.com",
-          developerKey: "AIzaSyDm8H4Ag5f_XzbJajprwejMij6V8LSmRGo",
+          clientId:"359230376538-j79misgqm7inonvgpgfkvafa440li4fe.apps.googleusercontent.com",
+          developerKey: "AIzaSyDQ_e-BYGipNfVI23oyqg2A9q4pKho68CI",
           viewId: "DOCS",
           // token: token, // pass oauth token in case you already have one
           showUploadView: true,
