@@ -22,13 +22,14 @@ const Login = ({ userCheck, getAllPosts, getPersonalDatas }) => {
     const onFailure = (response)=>{
         console.log(response)
     }
+    //clientId="686177336588-qhhagupocke5qsclkt0n07h9s6c8bbpu.apps.googleusercontent.com"
 
     return (
         <Card className="p-2 mt-3">
             <b>Login with Google</b>
             <hr />
             <GoogleLogin
-                clientId="686177336588-qhhagupocke5qsclkt0n07h9s6c8bbpu.apps.googleusercontent.com"
+                clientId="359230376538-j79misgqm7inonvgpgfkvafa440li4fe.apps.googleusercontent.com"
                 buttonText="Login with Google"
                 onSuccess={responseGoogle}
                 onFailure={onFailure}
