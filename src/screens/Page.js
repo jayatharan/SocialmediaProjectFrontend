@@ -25,7 +25,12 @@ const Page = ({user}) => {
     }, [])
 
     const getToken = ()=>{
-        const user = JSON.parse(localStorage.getItem("user"))
+        let user = null
+        try{
+            user = JSON.parse(localStorage.getItem("user"))
+        }catch(err){
+
+        }
         if(user){
             return user.token
         }

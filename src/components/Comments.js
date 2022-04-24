@@ -66,12 +66,14 @@ const Comments = ({postId, user, postUserId}) => {
         <div className="px-1 pb-1" style={{backgroundColor:"#e7e7e7"}}>
             <Scrollbars style={{ height: "60vh" }}>
                 {comments.map((comment)=>(<>
-                    <Comment 
-                        key={comment._id} 
-                        comment={comment} 
-                        isOwner={isOwner()}
-                        deleteComment={deleteComment}
-                    />
+                    {!comment.deleted&&(
+                        <Comment 
+                            key={comment._id} 
+                            comment={comment} 
+                            isOwner={isOwner()}
+                            deleteComment={deleteComment}
+                        />
+                    )}
                 </>))}
             </Scrollbars>
             {user&&(
