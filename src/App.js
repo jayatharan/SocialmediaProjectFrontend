@@ -12,6 +12,7 @@ import Page from './screens/Page'
 import Admin from './screens/Admin';
 import ReportedPosts from './screens/ReportedPosts';
 import Lab from './screens/Lab';
+import ReportedComments from './screens/ReportedComments';
 
 function App() {
 
@@ -68,6 +69,7 @@ function App() {
       </Route>
       <Route path='/admin' exact><Admin user={user} userCheck={userCheck} /></Route>
       <Route path='/admin/reported_posts'><ReportedPosts user={user} userCheck={userCheck} /></Route>
+      <Route path='/admin/reported_comments'><ReportedComments user={user} userCheck={userCheck} /></Route>
       <Route path='/page/:id'><Page user={user} /></Route>
       <Route path='/lab/:id'><Lab user={user} /></Route>
       <Route path='/edit-post/:id'><EditPost /></Route>

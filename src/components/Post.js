@@ -62,8 +62,8 @@ const Post = ({ postData, user, updatePosts, showPopup, popEditPost }) => {
     const getDefaultActiveKey = ()=>{
         if(postData){
             if(postData.youtubeId) return "video"
+            else if (postData.description) return "discription"
             else if (postData.files.length != 0) return "file"
-            else if (postData.discription) return "discription"
         }
         return ""
     }
@@ -243,7 +243,7 @@ const Post = ({ postData, user, updatePosts, showPopup, popEditPost }) => {
                             // </Tab>
                         )}
                         {postData.description&&(
-                            <Tab eventKey="discription" title="Discription">
+                            <Tab eventKey="discription" title="Description">
                                 <Scrollbars style={{ height: "50vh" }}>
                                     <div className="px-2 pt-1">{parse(postData.description)}</div>
                                 </Scrollbars> 
