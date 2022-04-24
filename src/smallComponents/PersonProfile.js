@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, Image } from 'react-bootstrap';
 
 
-
 const PersonProfile = ({friend}) => {
     return (
         <Card className="p-1 m-1">

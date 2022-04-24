@@ -6,12 +6,11 @@ import Profile from './Profile'
 import Search from './Search'
 import UpdateMenu from './UpdateMenu';
 
-const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction, setShowPopup }) => {
+const SmallProfile = ({ notifications, user, userCheck, requests, myFriends, requestAction, setShowPopup, myPages, followingPages,openPageEdit, myLabs, openLabEdit }) => {
 
     const [profileShow, setProfileShow] = useState(false)
     const [searchShow, setSearchShow] = useState(false)
     const [show, setShow] = useState(false)
-
 
     const popover = (
         <Popover id="popover-basic">
@@ -46,7 +45,7 @@ const SmallProfile = ({ user, userCheck, requests, myFriends, requestAction, set
                 <Modal.Header className="py-0 pt-2" closeButton>
                     <Modal.Title >My Profile</Modal.Title>
                 </Modal.Header>
-                <Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} setShowPopup={setShowPopup} />
+                <Profile notifications={notifications} followingPages={followingPages} myPages={myPages} myLabs={myLabs} openPageEdit={openPageEdit} openLabEdit={openLabEdit} user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} setShowPopup={setShowPopup} />
             </Modal>
             <Modal show={searchShow} onHide={() => {setSearchShow(false); setShowPopup(true)}} >
                 <Modal.Header className="py-0 pt-2" closeButton>

@@ -7,6 +7,7 @@ const Login = ({ userCheck, getAllPosts, getPersonalDatas }) => {
 
     const responseGoogle = (response) => {
         const tokenId = response.tokenId
+        console.log(tokenId)
         axios({
             method: "POST",
             url: "http://localhost:5000/user/login",
@@ -27,7 +28,7 @@ const Login = ({ userCheck, getAllPosts, getPersonalDatas }) => {
             <b>Login with Google</b>
             <hr />
             <GoogleLogin
-                clientId="1024970411628-b4s6qus2bui9efecamg85p7e1t9unnsg.apps.googleusercontent.com"
+                clientId="686177336588-qhhagupocke5qsclkt0n07h9s6c8bbpu.apps.googleusercontent.com"
                 buttonText="Login with Google"
                 onSuccess={responseGoogle}
                 onFailure={onFailure}

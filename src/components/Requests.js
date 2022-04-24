@@ -16,7 +16,7 @@ const Requests = ({requests,requestAction}) => {
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
                     <Card.Body className="px-0 py-1">
-                        <Scrollbars style={{ height:"50vh" }}>
+                        <Scrollbars style={{ height:"75vh" }}>
                             {requests.map((req)=>(
                                 <PersonRequest req={req} requestAction={requestAction} />
                                 )
@@ -25,7 +25,7 @@ const Requests = ({requests,requestAction}) => {
                     </Card.Body>
                     </Accordion.Collapse>
                 </Card>
-                <Card>
+                {/* <Card>
                     <Accordion.Toggle className="py-1" as={Card.Header} eventKey="1">
                     Waiting Requests<Badge variant="success">12</Badge>
                     </Accordion.Toggle>
@@ -34,7 +34,7 @@ const Requests = ({requests,requestAction}) => {
                         Old Requests will show here
                     </Card.Body>
                     </Accordion.Collapse>
-                </Card>
+                </Card> */}
             </Accordion>
         </div>
     )

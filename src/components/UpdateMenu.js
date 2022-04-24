@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, Button, Col, Card } from 'react-bootstrap';
+import IntlTelInput from 'react-intl-tel-input';
 import axios from 'axios'
 
 
@@ -20,8 +21,15 @@ const UpdateMenu = ({ user, userCheck }) => {
         "grade": [],
         "subject": []
     })
+    const [schools, setSchools] = useState([])
 
     const changeUserType = (e) => {
+        if(e.target.value == "School") setFormData({...formData,["userType"]:e.target.value,["name"]:user.user.name})
+        else{
+            var fd = {...formData}
+            delete fd.name
+            setFormData({...fd,["userType"]:e.target.value})
+        }
         setUserType(e.target.value)
     }
 
@@ -29,19 +37,45 @@ const UpdateMenu = ({ user, userCheck }) => {
         "userType": usertype,
         "medium": user.user.medium,
         "grade": user.user.grade,
-        "district": user.user.district
+        "district": user.user.district,
+        "phoneNo":user.user.phoneNo,
+        "name":user.user.name,
+        "school":user.user.school,
+        "class":user.user.class
     })
 
     const handleChange = (e) => {
         let name = e.target.name
         let value = e.target.value
         setFormData({ ...formData, [name]: value })
+        if(name == "district") getSchools(value)
     }
+
+    const getSchools = (dst) => {
+        axios({
+            method: "GET",
+            url: "http://localhost:5000/user/filter_users",
+            params: {
+                "district":dst?dst:formData.district,
+                "userType":"School"
+            } 
+        }).then((res)=>{
+            setSchools(res.data)
+        })
+    }
+    
+    useEffect(() => {
+      getSchools()
+    }, []);
+    
 
     const handleSubmit = (e) => {
         e.preventDefault()
 
         if (formData.userType === "Student" && (!formData.medium || !formData.grade || !formData.district)) return
+        if (formData.userType === "Teacher" && (!formData.phoneNo || !formData.district)) return
+        if (formData.userType === "School" && (!formData.phoneNo || !formData.district || !formData.name)) return
+
         axios({
             method: "POST",
             headers: {
@@ -149,11 +183,159 @@ const UpdateMenu = ({ user, userCheck }) => {
                     </Form.Control>
                 </Col>
             </Form.Row>
+            <Form.Row className="align-items-center mb-1">
+                <Col xs="auto" className="w-50">
+                    <Form.Label className="my-1 mr-2" htmlFor="districtSelect">
+                        <small>School</small>
+                    </Form.Label>
+                </Col>
+                <Col xs="auto" className="w-50">
+                    <Form.Control
+                        size="sm"
+                        as="select"
+                        className="mr-sm-2"
+                        name="school"
+                        value={formData.school}
+                        onChange={handleChange}
+                        id="schoolSelect"
+                        custom
+                    >
+                        <option value=""></option>
+                        {schools.map((sch, idx) => (
+                            <option size="sm" key={idx} value={sch._id}>{sch.name}</option>
+                        ))}
+                    </Form.Control>
+                </Col>
+            </Form.Row>
+            <Form.Row className="align-items-center mb-1">
+                <Col xs="auto" className="w-50">
+                    <Form.Label className="my-1 mr-2" htmlFor="districtSelect">
+                        <small>Class</small>
+                    </Form.Label>
+                </Col>
+                <Col xs="auto" className="w-50">
+                <Form.Control
+                        size="sm"
+                        as="select"
+                        className="mr-sm-2"
+                        name="class"
+                        value={formData.class}
+                        onChange={handleChange}
+                        id="classSelect"
+                        custom
+                    >
+                        <option value=""></option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                    </Form.Control>
+                </Col>
+            </Form.Row>
             <Button variant="primary" type="submit" className="py-0 w-50 mt-2">
                 Submit
             </Button>
         </Form>
 
+    const teacherForm = 
+        <Form onSubmit={handleSubmit}>
+            <Form.Row className="align-items-center mb-1">
+                <Col xs="auto" className="w-50">
+                    <Form.Label className="my-1 mr-2" htmlFor="districtSelect">
+                        <small>District</small>
+                    </Form.Label>
+                </Col>
+                <Col xs="auto" className="w-50">
+                    <Form.Control
+                        size="sm"
+                        as="select"
+                        className="mr-sm-2"
+                        name="district"
+                        value={formData.district}
+                        onChange={handleChange}
+                        id="districtSelect"
+                        custom
+                    >
+                        <option value=""></option>
+                        {choice.district.map((dst, idx) => (
+                            <option size="sm" key={idx} value={dst}>{dst}</option>
+                        ))}
+                    </Form.Control>
+                </Col>
+            </Form.Row>
+            <Form.Row className="align-items-center mb-1">
+                <Col xs="auto" className="w-50">
+                    <Form.Label className="my-1 mr-2" htmlFor="districtSelect">
+                        <small>School</small>
+                    </Form.Label>
+                </Col>
+                <Col xs="auto" className="w-50">
+                    <Form.Control
+                        size="sm"
+                        as="select"
+                        className="mr-sm-2"
+                        name="school"
+                        value={formData.school}
+                        onChange={handleChange}
+                        id="schoolSelect"
+                        custom
+                    >
+                        <option value=""></option>
+                        {schools.map((sch, idx) => (
+                            <option size="sm" key={idx} value={sch._id}>{sch.name}</option>
+                        ))}
+                    </Form.Control>
+                </Col>
+            </Form.Row>
+            <Form.Group controlId="postTitle" className="mb-0">
+                <Form.Label className="mb-0"><small>PhoneNo</small></Form.Label>
+                <Form.Control name="phoneNo" onChange={handleChange} className="py-0" type="text" value={formData&&formData.phoneNo} />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="py-0 w-50 mt-2">
+                Submit
+            </Button>
+        </Form>
+
+const schoolForm = 
+        <Form onSubmit={handleSubmit}>
+            <Form.Row className="align-items-center mb-1">
+                <Col xs="auto" className="w-50">
+                    <Form.Label className="my-1 mr-2" htmlFor="districtSelect">
+                        <small>District</small>
+                    </Form.Label>
+                </Col>
+                <Col xs="auto" className="w-50">
+                    <Form.Control
+                        size="sm"
+                        as="select"
+                        className="mr-sm-2"
+                        name="district"
+                        value={formData.district}
+                        onChange={handleChange}
+                        id="districtSelect"
+                        custom
+                    >
+                        <option value=""></option>
+                        {choice.district.map((dst, idx) => (
+                            <option size="sm" key={idx} value={dst}>{dst}</option>
+                        ))}
+                    </Form.Control>
+                </Col>
+            </Form.Row>
+            <Form.Group controlId="schoolName" className="mb-0">
+                <Form.Label className="mb-0"><small>School Name</small></Form.Label>
+                <Form.Control onChange={e=>setFormData({...formData,["name"]:e.target.value})} className="py-0" type="text" value={formData&&formData.name} />
+            </Form.Group>
+            <Form.Group controlId="postTitle" className="mb-0">
+                <Form.Label className="mb-0"><small>PhoneNo</small></Form.Label>
+                <Form.Control name="phoneNo" onChange={handleChange} className="py-0" type="text" value={formData&&formData.phoneNo} />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="py-0 w-50 mt-2">
+                Submit
+            </Button>
+        </Form>
 
     return (
         <Card className="py-1 px-2">
@@ -169,6 +351,7 @@ const UpdateMenu = ({ user, userCheck }) => {
                         size="sm"
                         className="mr-sm-2 py-0"
                         id="inlineFormCustomSelectPref"
+                        value = {usertype}
                         onChange={changeUserType}
                         custom
                     >
@@ -178,7 +361,7 @@ const UpdateMenu = ({ user, userCheck }) => {
                     </Form.Control>
                 </Col>
             </Form.Row>
-            {usertype === "Student" ? (studentForm) : usertype === "Teacher" ? (<>Teacher</>) : (<>School</>)}
+            {usertype === "Student" ? (studentForm) : usertype === "Teacher" ? (teacherForm) : (schoolForm)}
         </Card>
     )
 }

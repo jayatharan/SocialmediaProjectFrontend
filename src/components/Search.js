@@ -5,10 +5,12 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 import axios from 'axios'
 
 import PersonSearch from '../smallComponents/PersonSearch';
+import ViewPage from '../smallComponents/ViewPage';
 
 const Search = ({user,refresh}) => {
     const [loading,setLoading] = useState(false)
     const [people,setPeople] = useState([])
+    const [pages,setPages] = useState([])
     const [requested,setRequested] = useState([])
     const [personPefresh, doPersonRefresh] = useState(0);
     const [keyword,setKeyword] = useState("")
@@ -40,6 +42,7 @@ const Search = ({user,refresh}) => {
         }).then((response)=>{
             setPeople(response.data.people)
             setRequested(response.data.requestedIds)
+            setPages(response.data.pages)
             doPersonRefresh(prev=>prev+1)
             setLoading(false)
         })
@@ -76,23 +79,18 @@ const Search = ({user,refresh}) => {
             <Accordion defaultActiveKey="0">
                 <Card>
                     <Accordion.Toggle className="py-1" as={Card.Header} eventKey="0">
-                    Pages <Badge variant="primary">12</Badge>
+                    Pages <Badge variant="primary">{pages.length}</Badge>
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey="0">
-                    <Card.Body className="px-0">
+                    <Card.Body className="px-0 py-1">
                         <Scrollbars style={{ height:"50vh" }}>
                         <Media className="px-2 py-1 rounded">
                             <Media.Body>
-                                <div class="d-flex justify-content-between pr-1">
-                                    <div className="d-flex flex-column">
-                                        <>Pagename</>
-                                        <small>Sir Name</small>
-                                    </div>
-                                    <div>
-                                        <Badge variant="primary" className="pe-auto" >View</Badge> 
-                                        <Badge variant="warning" className="pe-auto" >Follow</Badge></div>
-                                </div>
-                                <hr className="my-0" />
+                                <Scrollbars style={{ height: "45vh" }}>
+                                    {pages.map((page)=>(
+                                        <ViewPage page={page} />
+                                    ))}
+                                </Scrollbars>
                             </Media.Body>
                         </Media>
                         

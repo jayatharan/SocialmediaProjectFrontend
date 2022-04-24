@@ -9,12 +9,13 @@ const CreatePost = ({popEditPost}) => {
     const [postLoading,setPostLoading] = useState(false)
     const [questionLoading,setQuestionLoading] = useState(false)
 
-    const moveToPostEditPage = ()=>{
+    const moveToPostEditPage = (type="post")=>{
         setPostLoading(true)
         axios({
             method:"GET",
             url:'http://localhost:5000/post/create',
-            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`}
+            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`},
+            params:{type}
         }).then((response)=>{
             setPostLoading(false)
             popEditPost(response.data._id)
@@ -40,8 +41,8 @@ const CreatePost = ({popEditPost}) => {
 
     return (
         <div className="d-flex justify-content-between mx-2 pt-1 ">
-            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-primary" onClick={moveToPostEditPage}>Create New Post {postLoading&&<Spinner size="sm" animation="border" />}</Button></div>
-            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-success" onClick={moveToQuestionEditPage}>Ask Question {questionLoading&&<Spinner size="sm" animation="border" />}</Button></div>
+            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-primary" onClick={()=>moveToPostEditPage("post")}>Create New Post {postLoading&&<Spinner size="sm" animation="border" />}</Button></div>
+            <div className="w-50 px-2"><Button className="w-100" size="sm" variant="outline-success" onClick={()=>moveToPostEditPage("question")}>Ask Question {questionLoading&&<Spinner size="sm" animation="border" />}</Button></div>
         </div>
     )
 }

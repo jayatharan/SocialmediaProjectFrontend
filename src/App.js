@@ -5,11 +5,13 @@ import axios from 'axios'
 
 import Navigation from './components/Navigation'
 import Home from './screens/Home'
-import Login from './screens/Login'
-import CreatePost from './screens/CreatePost';
 import Profile from './screens/Profile'
 import Questions from './screens/Questions';
-import TextEditor from './screens/TextEditor';
+import EditPost from './screens/EditPost';
+import Page from './screens/Page'
+import Admin from './screens/Admin';
+import ReportedPosts from './screens/ReportedPosts';
+import Lab from './screens/Lab';
 
 function App() {
 
@@ -25,7 +27,7 @@ function App() {
             return user.token
         }
         return ""
-    }
+  }
   
   const getUserData = ()=>{
         axios({
@@ -59,13 +61,12 @@ function App() {
       <Route path='/' exact>
         <Home user={user} setUser={setUser} userCheck={userCheck} logout={logout} />
       </Route>
-      {/* <Route path='/questions'>
-        <Questions user={user} />
-      </Route> */}
-      <Route path='/edit/:id'><CreatePost /></Route>
+      <Route path='/admin' exact><Admin user={user} userCheck={userCheck} /></Route>
+      <Route path='/admin/reported_posts'><ReportedPosts user={user} userCheck={userCheck} /></Route>
+      <Route path='/page/:id'><Page user={user} /></Route>
+      <Route path='/lab/:id'><Lab user={user} /></Route>
+      <Route path='/edit-post/:id'><EditPost /></Route>
       <Route path='/profile/:id'><Profile /></Route>
-      <Route path='/login' component={Login}/>
-      {/* <Route path='/text'><TextEditor /></Route> */}
     </BrowserRouter>
   );
 }

@@ -11,15 +11,28 @@ import SmallProfile from '../components/SmallProfile'
 import Login from '../components/Login'
 import CreatePost from '../components/CreatePost';
 import EditPost from '../components/EditPost';
+import EditPage from '../components/EditPage';
+import EditLab from '../components/EditLab';
+import SchoolSendNotifications from '../components/SchoolSendNotifications';
+import SchoolSearchItems from '../components/SchoolSearchItems';
 
 const Home = ({user,userCheck}) => {
+    
     const [posts,setPosts] = useState([])
     const [requests,setRequests] = useState([])
     const [myFriends,setMyFriends] = useState([])
+    const [notifications,setNotifications] = useState([])
     const [refresh, doRefresh] = useState(0)
     const [showPopup, setShowPopup] = useState(true)
     const [showEditPost,setShowEditPost] = useState(false)
     const [postId,setPostId] = useState(null)
+    const [showEditPage,setShowEditPage] = useState(false)
+    const [pageId,setPageId] = useState(null)
+    const [myPages,setMyPages] = useState([])
+    const [followingPages,setFollowingPages] = useState([])
+    const [myLabs, setMyLabs] = useState([])
+    const [showEditLab,setShowEditLab] = useState(false)
+    const [labId,setLabId] = useState(null)
 
     useEffect(() => {
         userCheck();
@@ -31,6 +44,10 @@ const Home = ({user,userCheck}) => {
     const getPersonalDatas = ()=>{
         getMyRequests()
         getMyFriends()
+        getMyPages()
+        getMyLabs()
+        getFollowingPages()
+        getMyNotifications()
         doRefresh(prev => prev + 1)
     }
 
@@ -65,6 +82,7 @@ const Home = ({user,userCheck}) => {
             url:'http://localhost:5000/request/my_requests',
             headers: {"Authorization" : `Bearer ${getToken()}`},
         }).then((response)=>{
+            
             setRequests(response.data)
         })
     }
@@ -76,6 +94,46 @@ const Home = ({user,userCheck}) => {
             headers: {"Authorization" : `Bearer ${getToken()}`},
         }).then((response)=>{
             setMyFriends(response.data)
+        })
+    }
+
+    const getMyNotifications = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/user/my_notifications',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            setNotifications(response.data)
+        })
+    }
+
+    const getFollowingPages = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/user/following-pages',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            setFollowingPages(response.data)
+        })
+    }
+
+    const getMyPages = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/page/my-pages',
+            headers: {"Authorization" : `Bearer ${getToken()}`},
+        }).then((response)=>{
+            setMyPages(response.data)
+        })
+    }
+
+    const getMyLabs = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/lab',
+            headers:{"Authorization" : `Bearer ${getToken()}`}
+        }).then((res)=>{
+            setMyLabs(res.data)
         })
     }
 
@@ -101,20 +159,69 @@ const Home = ({user,userCheck}) => {
         setShowEditPost(true)
     }
 
+    const popEditPage = (p_id)=>{
+        setPageId(p_id)
+        setShowPopup(false)
+        setShowEditPage(true)
+    }
+
+    const popEditLab = (p_id)=>{
+        setLabId(p_id)
+        setShowPopup(false)
+        setShowEditLab(true)
+    }
+
+    const openPageEdit = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/page/create',
+            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`}
+        }).then((response)=>{
+            popEditPage(response.data._id)
+        }).catch((err)=>{
+            
+        })
+    }
+
+    const openLabEdit = ()=>{
+        axios({
+            method:"GET",
+            url:'http://localhost:5000/lab/create',
+            headers: {"Authorization" : `Bearer ${JSON.parse(localStorage.getItem("user")).token}`}
+        }).then((response)=>{
+            popEditLab(response.data._id)
+        }).catch((err)=>{
+       
+        })
+    }
+
     return (
         <div style={{height:'100vh'}}>
             <Modal size="lg" className="px-0" show={showEditPost} onHide={() => {setShowEditPost(false); setShowPopup(true)}} centered>
                 <Modal.Header className="py-0 pt-2" closeButton>
-                    <Modal.Title >Edit Post</Modal.Title>
+                    {/* <Modal.Title >Post</Modal.Title> */}
                 </Modal.Header>
                     <EditPost user={user} p_id={postId} />
+            </Modal>
+            <Modal className="px-0" show={showEditPage} onHide={() => {setShowEditPage(false); setShowPopup(true)}} centered>
+                <Modal.Header className="py-0 pt-2" closeButton>
+                    <Modal.Title >Page</Modal.Title>
+                </Modal.Header>
+                    <EditPage p_id={pageId} />
+            </Modal>
+            <Modal className="px-0" show={showEditLab} onHide={() => {setShowEditLab(false); setShowPopup(true)}} centered>
+                <Modal.Header className="py-0 pt-2" closeButton>
+                    <Modal.Title >Lab</Modal.Title>
+                </Modal.Header>
+                    <EditLab l_id={labId} />
+                    {/* <EditPage p_id={pageId} /> */}
             </Modal>
             <Container style={{height:'100%'}} fluid>
                 <Row className="pt-5">
 
                     <Col className="d-none d-md-block pr-0" md={4} lg={3} >
                         {user && user.user ? 
-                            (<Profile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} setShowPopup={setShowPopup}/>) 
+                            (<Profile notifications={notifications} followingPages={followingPages} myPages={myPages} myLabs={myLabs} openPageEdit={openPageEdit} openLabEdit={openLabEdit} user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} setShowPopup={setShowPopup}/>) 
                             : 
                             (<Login getAllPosts={getAllPosts} userCheck={userCheck} getPersonalDatas={getPersonalDatas}/>
                         )}
@@ -129,8 +236,18 @@ const Home = ({user,userCheck}) => {
                         className="mt-3">
                             {user && user.user ? 
                             (<>
-                                <SmallProfile user={user} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} refresh={refresh} setShowPopup={setShowPopup}/> 
-                                {user.user&&user.user.updated && <><SchoolNotifications /><CreatePost popEditPost={popEditPost} /></>}
+                                <SmallProfile notifications={notifications} followingPages={followingPages} myPages={myPages} myLabs={myLabs} user={user} openPageEdit={openPageEdit} openLabEdit={openLabEdit} userCheck={userCheck} requests={requests} myFriends={myFriends} requestAction={requestAction} getMyRequests={getMyRequests} refresh={refresh} setShowPopup={setShowPopup}/> 
+                                {user.user&&user.user.updated && (<>
+                                {user.user.userType != "School" ? (
+                                    <SchoolNotifications notifications={notifications} />
+                                ):(
+                                    <>
+                                        <SchoolSendNotifications />
+                                        <SchoolSearchItems />
+                                    </>
+                                )}
+                                <CreatePost popEditPost={popEditPost} />
+                                </>)}
                             </> )
                             : 
                             (<div className="mx-2 mb-1 d-block d-md-none">
